@@ -1,13 +1,13 @@
 // // const p = window.particle;
 
-const PARENT = "outer";
+const WRAPPER = "particles-wrap";
 const particles = [];
 let width, height;
 let count = 90;
 
 
 function dimensions() {
-  let p = document.getElementById(PARENT);
+  let p = document.getElementById(WRAPPER);
   width = p.offsetWidth;
   height = p.offsetHeight;
   count = Math.round(width * height / 8640);
@@ -19,11 +19,11 @@ function dimensions() {
 function makeCanvas() {
   dimensions();
   let cnv = createCanvas(width, height);
-  cnv.style("display", "block");
+  // cnv.style("display", "block");
   // cnv.style("position", "absolute");
-  cnv.style("inset", 0);
-  cnv.style("z-index", -1);
-  cnv.parent("home-header");
+  // cnv.style("inset", 0);
+  // cnv.style("z-index", -1);
+  cnv.parent("particles-parent");
   return cnv;
 }
 
