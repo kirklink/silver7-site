@@ -19,10 +19,10 @@ function dimensions() {
 function makeCanvas() {
   dimensions();
   let cnv = createCanvas(width, height);
-  // cnv.style("display", "block");
-  // cnv.style("position", "absolute");
-  // cnv.style("inset", 0);
-  // cnv.style("z-index", -1);
+  cnv.style("display", "block");
+  cnv.style("position", "absolute");
+  cnv.style("inset", 0);
+  cnv.style("z-index", -1);
   cnv.parent("particles-parent");
   return cnv;
 }
