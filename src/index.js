@@ -23,7 +23,7 @@ function makeCanvas() {
   cnv.style("position", "absolute");
   cnv.style("inset", 0);
   cnv.style("z-index", -1);
-  cnv.parent("particles-parent");
+  cnv.parent(WRAPPER);
   return cnv;
 }
 
