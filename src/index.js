@@ -1,10 +1,9 @@
 // // const p = window.particle;
 
 const WRAPPER = "particles-wrap";
+const  MAX_COUNT = 84;
 const particles = [];
 let width, height;
-let count = 90;
-
 
 function dimensions() {
   let p = document.getElementById(WRAPPER);
@@ -13,6 +12,8 @@ function dimensions() {
   count = Math.round(width * height / 8640);
   if (count < 3) {
     count = 3;
+  } else if (count > MAX_COUNT) {
+    count = MAX_COUNT;
   }
 }
 

@@ -3,11 +3,24 @@ body {
   }
 
 
-/* #home-header {
-  width: 400px;
-} */
+h1 {
+  color: white;
+  text-align: center;
+}
 
-#particles-wrap {
+.wrapper {
+  position: relative;
+  overflow: hidden;
   width: 100%;
   height: 600px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 6px;
+
 }
+
+.content {
+  padding: 40px;
+}
+
