@@ -1,12 +1,10 @@
-// // const p = window.particle;
-
-const WRAPPER = "particles-wrap";
+const PARENT = "particles-parent";
 const  MAX_COUNT = 84;
 const particles = [];
 let width, height;
 
 function dimensions() {
-  let p = document.getElementById(WRAPPER);
+  let p = document.getElementById(PARENT);
   width = p.offsetWidth;
   height = p.offsetHeight;
   count = Math.round(width * height / 8640);
@@ -20,11 +18,11 @@ function dimensions() {
 function makeCanvas() {
   dimensions();
   let cnv = createCanvas(width, height);
-  cnv.style("display", "block");
-  cnv.style("position", "absolute");
-  cnv.style("inset", 0);
-  cnv.style("z-index", -1);
-  cnv.parent(WRAPPER);
+  // cnv.style("display", "block");
+  // cnv.style("position", "absolute");
+  // cnv.style("inset", 0);
+  // cnv.style("z-index", -1);
+  cnv.parent(PARENT);
   return cnv;
 }
 
@@ -47,7 +45,8 @@ function setup() {
 }
 
 function draw() {
-  background("#000133");
+  // background(51);
+  clear();
   particles.forEach((particle, index) => {
     particle.update();
     particle.drawParticle();
