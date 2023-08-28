@@ -77,6 +77,8 @@ class Particle {
     this.color = color;
     this.trapped = 0;
     this.trapCheck = false;
+    this.mouseFrames = 0;
+    this.lastMouseVector = createVector();
   }
 
   update() {
@@ -89,13 +91,21 @@ class Particle {
     let mouse = createVector(mouseX, mouseY);
     let direction = mouse.sub(this.position);
     let distance = direction.mag();
-
     if (distance < 100) {
-      direction.normalize();
-      direction.mult(0.5);
-      this.acceleration = direction;
-      this.velocity.add(this.acceleration);
-      this.velocity.limit(4);
+      this.mouseFrames += 1;
+      if (this.mouseFrames > 500) {
+        this.position.x = random(width);
+        this.position.y = random(height);
+        this.mouseFrames = 0;
+      } else {
+        direction.normalize();
+        direction.mult(0.5);
+        this.acceleration = direction;
+        this.velocity.add(this.acceleration);
+        this.velocity.limit(4);
+      }
+    } else {
+      this.mouseFrames = 0;
     }
   }
 
