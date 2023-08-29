@@ -2,6 +2,9 @@ const PARENT = "particles-parent";
 const  MAX_COUNT = 84;
 const particles = [];
 let width, height;
+let lastMouseVector;
+let mouseStoppedFrames = 0;
+let mouseDisabled = false;
 
 function dimensions() {
   let p = document.getElementById(PARENT);
@@ -41,11 +44,23 @@ function setup() {
         particles.push(new Particle("#FFFFFF"));
     }
   }
+  lastMouseVector = createVector();
   return cnv;
 }
 
 function draw() {
-  // background(51);
+  let mouseCheck = createVector(mouseX, mouseY);
+  if (lastMouseVector.equals(mouseCheck)) {
+    mouseStoppedFrames += 1;
+  } else {
+    mouseStoppedFrames = 0;
+  }
+  if (mouseStoppedFrames > 500) {
+    mouseDisabled = true;
+  } else {
+    mouseDisabled = false;
+  }
+  lastMouseVector = mouseCheck;
   clear();
   particles.forEach((particle, index) => {
     particle.update();
@@ -75,8 +90,8 @@ class Particle {
     this.velocity = createVector(random(-2, 2), random(-2, 2));
     this.acceleration = createVector();
     this.color = color;
-    this.trapped = 0;
-    this.trapCheck = false;
+    this.sideTrappedCount = 0;
+    this.sideTrapped = false;
     this.mouseFrames = 0;
     this.lastMouseVector = createVector();
   }
@@ -88,48 +103,59 @@ class Particle {
   }
 
   detectMouseInteraction() {
+    if (mouseDisabled) {
+      return;
+    }
     let mouse = createVector(mouseX, mouseY);
     let direction = mouse.sub(this.position);
     let distance = direction.mag();
     if (distance < 100) {
-      this.mouseFrames += 1;
-      if (this.mouseFrames > 500) {
-        this.position.x = random(width);
-        this.position.y = random(height);
-        this.mouseFrames = 0;
-      } else {
-        direction.normalize();
-        direction.mult(0.5);
-        this.acceleration = direction;
-        this.velocity.add(this.acceleration);
-        this.velocity.limit(4);
-      }
-    } else {
-      this.mouseFrames = 0;
+      direction.normalize();
+      direction.mult(0.5);
+      this.acceleration = direction;
+      this.velocity.add(this.acceleration);
+      this.velocity.limit(4);
     }
+    // This is an alternative action that releases the particle after 500 frames of being trapped by the mouse
+    // if (distance < 100) {
+    //   this.mouseFrames += 1;
+    //   if (this.mouseFrames > 500) {
+    //     this.position.x = random(width);
+    //     this.position.y = random(height);
+    //     this.mouseFrames = 0;
+    //   } else {
+    //     direction.normalize();
+    //     direction.mult(0.5);
+    //     this.acceleration = direction;
+    //     this.velocity.add(this.acceleration);
+    //     this.velocity.limit(4);
+    //   }
+    // } else {
+    //   this.mouseFrames = 0;
+    // }
   }
 
   detectEdges() {
-    if (this.trapped > 5) {
+    if (this.sideTrappedCount > 5) {
       this.position.x = random(width);
       this.position.y = random(height);
-      this.trapped = 0;
-      this.trapCheck = false;
+      this.sideTrappedCount = 0;
+      this.sideTrapped = false;
     } else if (this.position.x < 0 || this.position.x > width) {
       this.velocity.x *= -1;
-      if (this.trapCheck) {
-        this.trapped += 1;
+      if (this.sideTrapped) {
+        this.sideTrappedCount += 1;
       }
-      this.trapCheck = true;
+      this.sideTrapped = true;
     } else if (this.position.y < 0 || this.position.y > height) {
       this.velocity.y *= -1;
-      if (this.trapCheck) {
-        this.trapped += 1;
+      if (this.sideTrapped) {
+        this.sideTrappedCount += 1;
       }
-      this.trapCheck = true;
+      this.sideTrapped = true;
     } else {
-      this.trapped = 0;
-      this.trapCheck = false;
+      this.sideTrappedCount = 0;
+      this.sideTrapped = false;
     }
   }
 
