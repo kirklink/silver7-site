@@ -30,18 +30,15 @@ function makeCanvas() {
 }
 
 function setup() {
-  dimensions();
   let cnv = makeCanvas();
   for (let i = 0; i <= count; i++) {
     // set the color of the first particle to #f012ce, the second particle to #32B47F and the third particle to #7E6551, the remaining particles should be #FFFFFF
-    if (i === 0) {
-        particles.push(new Particle("#f012ce"));
-    } else if (i === 1) {
-        particles.push(new Particle("#32B47F"));
-    } else if (i === 2) {
-        particles.push(new Particle("#7E6551"));
+    if (i % 3 === 0) {
+      particles.push(new Particle("#FFBB00"));
+    } else if (i % 3 === 1) {
+      particles.push(new Particle("#89E37D"));
     } else {
-        particles.push(new Particle("#FFFFFF"));
+      particles.push(new Particle("#7ADEFF"));
     }
   }
   lastMouseVector = createVector();
@@ -70,11 +67,16 @@ function draw() {
 }
 
 function windowResized() {
-  dimensions();
   let cnv = makeCanvas();
   if (particles.length < count) {
     for (let i = particles.length; i <= count; i++) {
-      particles.push(new Particle("#FFFFFF"));
+      if (i % 3 === 0) {
+        particles.push(new Particle("#FFBB00"));
+      } else if (i % 3 === 1) {
+        particles.push(new Particle("#89E37D"));
+      } else {
+        particles.push(new Particle("#7ADEFF"));
+      }
     }
   } else if (particles.length > count) {
     for (let i = particles.length; i > count; i--) {
